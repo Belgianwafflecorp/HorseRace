@@ -19,3 +19,5 @@ class horse:
     
     def horse_avg(self):
         return sum(self.horse_stats.values()) / len(self.horse_stats)
+    
+    
