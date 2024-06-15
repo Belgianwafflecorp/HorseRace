@@ -1,5 +1,7 @@
 import random
 from settings import settings
+from rich.console import Console
+from rich.table import Table
 
 class horse:
     def __init__(self, name, breed):
@@ -20,6 +22,18 @@ class horse:
             self.horse_stats[stat] = random.randint(1, 100)
         return self.horse_stats
     
+    def print_horse_stats(self):
+        console = Console()
+        table = Table(title=f"{self.name} Stats")
+
+        table.add_column("Stat", justify="right", style="cyan", no_wrap=True)
+        table.add_column("Value", style="magenta")
+
+        for stat, value in self.horse_stats.items():
+            table.add_row(stat, str(value))
+
+        console.print(table)
+    
     def horse_avg(self):
         return int(sum(self.horse_stats.values()) / len(self.horse_stats))
     
@@ -38,11 +52,14 @@ class horse:
             
 
     def horse_position(self):
-        if self.move == 'move':
-            self.position.pop(-1)
-            self.position.append('_')
+        if self.check_horse_finish() == True:
+            print(f'{self.name} has finished')
+        else:
+            if self.move == 'move':
+                self.position.pop(-1)
+                self.position.append('_')
+                print(self.position)
             print(self.position)
-        print(self.position)
 
     def horse_run(self):
         for horse in self.race_horses:
