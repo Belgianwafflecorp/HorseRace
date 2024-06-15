@@ -2,8 +2,9 @@ import random
 from settings import Settings
 
 class Horse:
-    def __init__(self, name):
+    def __init__(self, name, racer):
         self.name = name
+        self.racer = racer
         self.settings = Settings()
         self.horse_stats = self.stats()
         self.horse_avg = self.calculate_avg()
@@ -13,8 +14,10 @@ class Horse:
     def new_horse():
         settings = Settings()
         name = random.choice(settings.horse_names)
+        racer = random.choice(settings.racer_names)
         settings.horse_names.remove(name)
-        return Horse(name)
+        settings.racer_names.remove(racer)
+        return Horse(name, racer)
 
     def stats(self):
         horse_stats = {stat: random.randint(1, 100) for stat in self.settings.horse_stats}

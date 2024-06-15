@@ -33,7 +33,7 @@ class Settings:
             'Willow',
         ]
 
-        self.racer = [
+        self.racer_names = [
             'Ellen',
             'John',
             'Sue',

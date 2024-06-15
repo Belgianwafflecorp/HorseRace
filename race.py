@@ -22,6 +22,7 @@ class Race:
         table = Table(title="Horse Stats")
 
         table.add_column("Horse", justify="left", style="cyan", no_wrap=True)
+        table.add_column("Racer", justify="center", style="magenta")
         for stat in self.settings.horse_stats.keys():
             table.add_column(stat, justify="center", style="magenta")
 
@@ -32,6 +33,7 @@ class Race:
             stats = horse.print_horse_stats()
             table.add_row(
                 horse.name,
+                horse.racer,
                 str(stats["speed"]),
                 str(stats["stamina"]),
                 str(stats["weight"]),
