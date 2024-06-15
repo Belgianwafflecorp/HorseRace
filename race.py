@@ -36,7 +36,7 @@ class Race:
                 horse.racer,
                 str(stats["speed"]),
                 str(stats["stamina"]),
-                str(stats["weight"]),
+                str(stats["focus"]),
                 str(stats["stamina"]),
                 str(stats["training"]),
                 style=row_styles[index % len(row_styles)]

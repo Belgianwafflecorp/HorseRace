@@ -2,6 +2,13 @@ import random
 
 class Settings:
     def __init__(self):
+        self.horse_stats = {
+            'speed': 0,
+            'strength': 0,
+            'focus': 0,
+            'stamina': 0,
+            'training': 0,
+        }
 
         self.horse_names = [
             'Amber', 
@@ -79,13 +86,6 @@ class Settings:
             'Bonnie',
         ]
 
-        self.horse_stats = {
-            'speed': 0,
-            'strength': 0,
-            'weight': 0,
-            'stamina': 0,
-            'training': 0,
-        }
 
     
 
