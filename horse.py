@@ -49,3 +49,8 @@ class horse:
             self.move = random.choices(list(self.run_odds.keys()), k = 1, weights = self.run_odds.values)
 
             self.horse_position()
+
+    def check_horse_finish(self):
+        if self.position[-1] == 'H':
+            return True
+        else: False
