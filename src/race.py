@@ -3,7 +3,7 @@ from settings import Settings
 from rich.console import Console
 from rich.table import Table
 import rich
-import database
+import database as database
 import time
 
 class Race:
