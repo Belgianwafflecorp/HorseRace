@@ -14,8 +14,10 @@ class Race:
         self.horse4 = Horse.new_horse()
 
         self.race_horses = [self.horse1, self.horse2, self.horse3, self.horse4]
-
         self.horse_list()
+
+        self.place_bet()
+
 
     def horse_list(self):
         console = Console()
@@ -43,6 +45,32 @@ class Race:
             )
 
         console.print(table)
+
+    def place_bet(self):
+        print("To place a bet, first choose a horse from the list, then enter the amount you would like to bet.")
+        self.bet_horse = input("Horse: ")
+        while self.bet_horse not in [horse.name for horse in self]:
+            print("Invalid horse name. Please choose one of the listed horses.")
+            self.bet_horse = input("Horse: ")
+
+        self.bet_amount = input("Amount: ")
+        while not self.bet_amount.isdigit():
+            print("Invalid amount. Please enter a valid number.")
+            self.bet_amount = input("Amount: ")
+
+
+    def winner(self):
+        for horse in self.race_horses:
+            if horse.check_horse_finish():
+                self.race_results.append[horse]
+
+    def placements(self):
+        self.race_results[0] += "Takes first place"
+        self.race_results[1] += "Takes second place"
+        self.race_results[2] += "Takes third place"
+        self.race_results[3] += "Takes fourth place"
+        print(self.race_results)
+    
 
 # Example usage
 if __name__ == "__main__":
