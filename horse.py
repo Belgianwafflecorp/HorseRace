@@ -1,5 +1,6 @@
 import random
 from settings import Settings
+import rich
 
 class Horse:
     def __init__(self, name, racer):
@@ -8,7 +9,8 @@ class Horse:
         self.settings = Settings()
         self.horse_stats = self.stats()
         self.horse_avg = self.calculate_avg()
-        self.position = ['H'] + ['_'] * 23
+        self.horse_icon = '🐎'
+        self.position = [self.horse_icon] + ['_'] * 23
 
     @staticmethod
     def new_horse():
@@ -51,4 +53,4 @@ class Horse:
             print(f'{self.name} has finished')
 
     def check_horse_finish(self):
-        return self.position[-1] == 'H'
+        return self.position[-1] == self.horse_icon

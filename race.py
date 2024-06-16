@@ -3,6 +3,7 @@ from settings import Settings
 from rich.console import Console
 from rich.table import Table
 import database
+import time
 
 class Race:
     def __init__(self):
@@ -60,9 +61,17 @@ class Race:
         while (not self.bet_amount.isdigit()) and (self.bet_amount <= self.balance):
             print("Invalid amount. Please enter a valid number. (Balance: {})".format(self.balance))
             self.bet_amount = input("Amount: ")
+        self.balance -= self.bet_amount
 
+    def race_track(self):
+        while not len(self.race_results) == 4:
+            for horse in self:
+                time.sleep(0.3)
 
-    def winner(self):
+                horse.update_position()
+                self.check_winner()
+
+    def check_winner(self):
         for horse in self.race_horses:
             if horse.check_horse_finish():
                 self.race_results.append[horse]
