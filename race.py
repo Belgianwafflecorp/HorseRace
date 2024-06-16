@@ -107,16 +107,16 @@ class Race:
             self.clear_screen()
 
     def placements(self):
-        placements = ["first", "second", "third", "fourth"]
+        self.placementsList = ["first", "second", "third", "fourth"]
         for i, horse in enumerate(self.race_results):
-            print(f"{horse.name} takes {placements[i]} place.")
+            print(f"{horse.name} takes {self.placementsList[i]} place.")
 
     def player_winnings(self):
         if not self.race_results:
             print("No race results available. Race might not have been completed properly.")
             return
         
-        if self.bet_horse == self.race_results[0].name:
+        if self.bet_horse == self.race_results[0].name.lower():
             winnings = self.bet_amount * 2
             self.balance += winnings
             self.db.update_balance(self.balance)
