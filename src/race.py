@@ -108,7 +108,7 @@ class Race:
             for horse in self.race_horses:
                 horse.update_position()
                 print(horse.name)
-                print(''.join(map(str, horse.position)))
+                print(''.join(map(str, horse.position))) 
                 if horse.check_horse_finish() and horse not in self.race_results:
                     self.race_results.append(horse)
             time.sleep(0.3)
