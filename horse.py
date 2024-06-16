@@ -44,12 +44,12 @@ class Horse:
 
     def update_position(self):
         move = self.horse_run_odds()
-        if move == 'move' and '_' in self.position:
+        if self.check_horse_finish():
+            print(f'{self.name} has finished')
+        elif move == 'move' and '_' in self.position:
             self.position.pop()  # Remove the last character
             self.position.insert(0, '_')  # Insert a new character at the start
 
-        if self.check_horse_finish():
-            print(f'{self.name} has finished')
 
     def check_horse_finish(self):
         return self.position[-1] == self.horse_icon

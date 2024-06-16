@@ -88,11 +88,11 @@ class Race:
     def race_track(self):
         while len(self.race_results) < len(self.race_horses):
             for horse in self.race_horses:
-                #if horse not in self.race_results:
-                    horse.update_position()
-                    print(horse.position)
-                    if horse.check_horse_finish():
-                        self.race_results.append(horse)
+                horse.update_position()
+                print(horse.name)
+                print(horse.position)
+                if horse.check_horse_finish() and horse not in self.race_results:
+                    self.race_results.append(horse)
             time.sleep(0.3)
             self.clear_screen()
 
@@ -113,7 +113,6 @@ class Race:
             print(f"Congratulations! You won {winnings}!")
         else:
             print("Better luck next time!")
-
 
     def clear_screen(self):
         print("\033c")
