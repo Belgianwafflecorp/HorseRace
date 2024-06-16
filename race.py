@@ -98,6 +98,7 @@ class Race:
 
     def race_track(self):
         while len(self.race_results) < len(self.race_horses):
+            print()
             for horse in self.race_horses:
                 horse.update_position()
                 print(horse.name)
@@ -131,9 +132,3 @@ class Race:
 
     def clear_screen(self):
         print("\033c")
-
-# Example usage
-if __name__ == "__main__":
-    while True:
-        race = Race() 
-        race.new_race()
