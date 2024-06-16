@@ -119,7 +119,8 @@ class Race:
             print("No race results available. Race might not have been completed properly.")
             return
         
-        if self.bet_horse == self.race_results[0].name.lower():
+        winning_horse = self.race_results[0]
+        if self.bet_horse == winning_horse.name.lower() or self.bet_horse == winning_horse.racer.lower():
             winnings = self.bet_amount * 2
             self.balance += winnings
             self.db.update_balance(self.balance)
