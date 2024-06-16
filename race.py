@@ -2,6 +2,7 @@ from horse import Horse
 from settings import Settings
 from rich.console import Console
 from rich.table import Table
+import rich
 import database
 import time
 
@@ -43,20 +44,20 @@ class Race:
             self.deposit()
 
     def horse_list(self):
-        console = Console()
-        table = Table(title="Horse Stats")
+        self.console = Console()
+        self.table = Table(title="Horse Stats")
 
-        table.add_column("Horse", justify="left", style="cyan", no_wrap=True)
-        table.add_column("Racer", justify="center", style="magenta")
+        self.table.add_column("Horse", justify="left", style="cyan", no_wrap=True)
+        self.table.add_column("Racer", justify="center", style="magenta")
         for stat in self.settings.horse_stats.keys():
-            table.add_column(stat, justify="center", style="magenta")
+            self.table.add_column(stat, justify="center", style="magenta")
 
         # Define a list of styles to cycle through for each row
         row_styles = ["dim cyan", "dim magenta", "dim green", "dim yellow"]
 
         for index, horse in enumerate(self.race_horses):
             stats = horse.horse_stats
-            table.add_row(
+            self.table.add_row(
                 horse.name,
                 horse.racer,
                 str(stats["speed"]),
@@ -67,7 +68,7 @@ class Race:
                 style=row_styles[index % len(row_styles)]
             )
 
-        console.print(table)
+        self.console.print(self.table)
 
     def place_bet(self):
         print("To place a bet, first choose a horse from the list, then enter the amount you would like to bet.")
@@ -75,12 +76,17 @@ class Race:
         horse_names = [horse.name.lower() for horse in self.race_horses]  # Convert horse names to lowercase
 
         while self.bet_horse not in horse_names:
+            self.clear_screen()
+            self.console.print(self.table)
             print("Invalid horse name. Please choose one of the listed horses.")
             self.bet_horse = input("Horse: ").strip().lower()  # Ask again and convert input to lowercase
 
         self.bet_amount = input("Amount: ")
         while not self.bet_amount.isdigit() or int(self.bet_amount) > self.balance:
+            self.clear_screen()
+            self.console.print(self.table)
             print("Invalid amount. Please enter a valid number. (Balance: {})".format(self.balance))
+            print(f"How much would you like to bet on {self.bet_horse}.")
             self.bet_amount = input("Amount: ")
 
         self.bet_amount = int(self.bet_amount)
