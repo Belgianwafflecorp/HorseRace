@@ -112,9 +112,10 @@ class Race:
             self.balance += winnings
             self.db.update_balance(self.balance)
             print(f"\nCongratulations! You won {winnings}!\n")
-            print(f"Your new balance is {self.balance}.\n")
+            print(f"Your balance is: {self.balance}.\n")
         else:
             print("\nBetter luck next time!\n")
+            print(f"Your balance is: {self.balance}.\n")
         input("Press Enter to continue...")
         self.clear_screen()
 
