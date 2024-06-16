@@ -11,7 +11,7 @@ class Horse:
         self.settings = Settings()
         self.horse_stats = self.stats()
         self.horse_avg = self.calculate_avg()
-        self.horse_icon = '🐎'
+        self.horse_icon = '🏇'
         self.track = '_'
         self.position = [self.horse_icon] + ([self.track] * 23)
 
