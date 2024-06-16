@@ -21,6 +21,9 @@ class Race:
         self.horse_list()
 
         self.place_bet()
+        self.race_track()
+        self.placements()
+        self.player_winnings()
 
 
     def horse_list(self):
@@ -68,8 +71,9 @@ class Race:
             for horse in self:
                 time.sleep(0.3)
 
-                horse.update_position()
+                horse.update_position() 
                 self.check_winner()
+                print(Horse.position)
 
     def check_winner(self):
         for horse in self.race_horses:
@@ -83,6 +87,13 @@ class Race:
         self.race_results[3] += "Takes fourth place"
         print(self.race_results)
     
+    def player_winnings(self):
+        if self.bet_horse == self.race_results[0]:
+            self.balance += self.bet_amount * 2
+            print("Congratulations! You won {}!".format(self.bet_amount * 2))
+        else:
+            print("Better luck next time!")
+
 
 # Example usage
 if __name__ == "__main__":
