@@ -16,6 +16,13 @@ class Horse:
         self.position = ([self.track] * 23) + [self.horse_icon]
 
     @classmethod
+    def reset_names(cls):
+        cls.available_horse_names = list(cls.used_horse_names)
+        cls.available_racer_names = list(cls.used_racer_names)
+        cls.used_horse_names.clear()
+        cls.used_racer_names.clear()
+
+    @classmethod
     def new_horse(cls):
         settings = Settings()
 

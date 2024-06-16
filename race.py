@@ -15,6 +15,7 @@ class Race:
 
     def new_race(self):
         self.check_broke()
+        Horse.reset_names()  # Reset the list of available horse names
         self.horse1 = Horse.new_horse()
         self.horse2 = Horse.new_horse()
         self.horse3 = Horse.new_horse()
