@@ -8,10 +8,12 @@ import time
 class Race:
     def __init__(self):
         self.settings = Settings()
-        self.balance = database.get_balance()
-
+        self.db = database.Database()
+        self.balance = self.db.get_balance()
+        self.race_results = []
 
     def new_race(self):
+        self.check_broke()
         self.horse1 = Horse.new_horse()
         self.horse2 = Horse.new_horse()
         self.horse3 = Horse.new_horse()
@@ -25,6 +27,20 @@ class Race:
         self.placements()
         self.player_winnings()
 
+    def deposit(self):
+        deposit_amount = input("Enter the amount you would like to deposit: ")
+        while not deposit_amount.isdigit():
+            print("Invalid amount. Please enter a valid number.")
+            deposit_amount = input("Enter the amount you would like to deposit: ")
+        deposit_amount = int(deposit_amount)
+        self.balance += deposit_amount
+        self.db.update_balance(self.balance)
+        print(f"Successfully deposited {deposit_amount}. Your new balance is {self.balance}.")
+
+    def check_broke(self):
+        if self.balance == 0:
+            print("You have no money left. Please deposit more to continue.")
+            self.deposit()
 
     def horse_list(self):
         console = Console()
@@ -39,12 +55,12 @@ class Race:
         row_styles = ["dim cyan", "dim magenta", "dim green", "dim yellow"]
 
         for index, horse in enumerate(self.race_horses):
-            stats = horse.print_horse_stats()
+            stats = horse.horse_stats
             table.add_row(
                 horse.name,
                 horse.racer,
                 str(stats["speed"]),
-                str(stats["stamina"]),
+                str(stats["strength"]),
                 str(stats["focus"]),
                 str(stats["stamina"]),
                 str(stats["training"]),
@@ -56,46 +72,54 @@ class Race:
     def place_bet(self):
         print("To place a bet, first choose a horse from the list, then enter the amount you would like to bet.")
         self.bet_horse = input("Horse: ")
-        while self.bet_horse not in [horse.name for horse in self]:
+        horse_names = [horse.name for horse in self.race_horses]
+        while self.bet_horse not in horse_names:
             print("Invalid horse name. Please choose one of the listed horses.")
             self.bet_horse = input("Horse: ")
 
         self.bet_amount = input("Amount: ")
-        while (not self.bet_amount.isdigit()) and (self.bet_amount <= self.balance):
+        while not self.bet_amount.isdigit() or int(self.bet_amount) > self.balance:
             print("Invalid amount. Please enter a valid number. (Balance: {})".format(self.balance))
             self.bet_amount = input("Amount: ")
+        self.bet_amount = int(self.bet_amount)
         self.balance -= self.bet_amount
+        self.db.update_balance(self.balance)
 
     def race_track(self):
-        while not len(self.race_results) == 4:
-            for horse in self:
-                time.sleep(0.3)
-
-                horse.update_position() 
-                self.check_winner()
-                print(Horse.position)
-
-    def check_winner(self):
-        for horse in self.race_horses:
-            if horse.check_horse_finish():
-                self.race_results.append[horse]
+        while len(self.race_results) < len(self.race_horses):
+            for horse in self.race_horses:
+                #if horse not in self.race_results:
+                    horse.update_position()
+                    print(horse.position)
+                    if horse.check_horse_finish():
+                        self.race_results.append(horse)
+            time.sleep(0.3)
+            self.clear_screen()
 
     def placements(self):
-        self.race_results[0] += "Takes first place"
-        self.race_results[1] += "Takes second place"
-        self.race_results[2] += "Takes third place"
-        self.race_results[3] += "Takes fourth place"
-        print(self.race_results)
-    
+        placements = ["first", "second", "third", "fourth"]
+        for i, horse in enumerate(self.race_results):
+            print(f"{horse.name} takes {placements[i]} place.")
+
     def player_winnings(self):
-        if self.bet_horse == self.race_results[0]:
-            self.balance += self.bet_amount * 2
-            print("Congratulations! You won {}!".format(self.bet_amount * 2))
+        if not self.race_results:
+            print("No race results available. Race might not have been completed properly.")
+            return
+        
+        if self.bet_horse == self.race_results[0].name:
+            winnings = self.bet_amount * 2
+            self.balance += winnings
+            self.db.update_balance(self.balance)
+            print(f"Congratulations! You won {winnings}!")
         else:
             print("Better luck next time!")
 
 
+    def clear_screen(self):
+        print("\033c")
+
 # Example usage
 if __name__ == "__main__":
     race = Race()
-    race.new_race()
+    while True:
+        race.new_race()

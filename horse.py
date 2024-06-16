@@ -1,6 +1,5 @@
 import random
 from settings import Settings
-import rich
 
 class Horse:
     def __init__(self, name, racer):
@@ -10,7 +9,7 @@ class Horse:
         self.horse_stats = self.stats()
         self.horse_avg = self.calculate_avg()
         self.horse_icon = '🐎'
-        self.position = [self.horse_icon] + ['_'] * 23
+        self.position = [self.horse_icon] + ['_'] * 20
 
     @staticmethod
     def new_horse():
@@ -46,8 +45,8 @@ class Horse:
     def update_position(self):
         move = self.horse_run_odds()
         if move == 'move' and '_' in self.position:
-            self.position.remove('_')
-            self.position.insert(0, '_')
+            self.position.pop()  # Remove the last character
+            self.position.insert(0, '_')  # Insert a new character at the start
 
         if self.check_horse_finish():
             print(f'{self.name} has finished')
