@@ -84,6 +84,7 @@ class Race:
         self.bet_amount = int(self.bet_amount)
         self.balance -= self.bet_amount
         self.db.update_balance(self.balance)
+        self.clear_screen()
 
     def race_track(self):
         while len(self.race_results) < len(self.race_horses):
@@ -110,9 +111,12 @@ class Race:
             winnings = self.bet_amount * 2
             self.balance += winnings
             self.db.update_balance(self.balance)
-            print(f"Congratulations! You won {winnings}!")
+            print(f"\nCongratulations! You won {winnings}!\n")
+            print(f"Your new balance is {self.balance}.\n")
         else:
-            print("Better luck next time!")
+            print("\nBetter luck next time!\n")
+        input("Press Enter to continue...")
+        self.clear_screen()
 
     def clear_screen(self):
         print("\033c")

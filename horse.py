@@ -2,6 +2,9 @@ import random
 from settings import Settings
 
 class Horse:
+    used_horse_names = set()
+    used_racer_names = set()
+
     def __init__(self, name, racer):
         self.name = name
         self.racer = racer
@@ -9,15 +12,29 @@ class Horse:
         self.horse_stats = self.stats()
         self.horse_avg = self.calculate_avg()
         self.horse_icon = '🐎'
-        self.position = [self.horse_icon] + ['_'] * 20
+        self.position = [self.horse_icon] + ['_'] * 23
 
-    @staticmethod
-    def new_horse():
+    @classmethod
+    def new_horse(cls):
         settings = Settings()
-        name = random.choice(settings.horse_names)
-        racer = random.choice(settings.racer_names)
+
+        # Select unique horse name
+        available_horse_names = list(set(settings.horse_names) - cls.used_horse_names)
+        if not available_horse_names:
+            raise ValueError("No more unique horse names available")
+        name = random.choice(available_horse_names)
+        cls.used_horse_names.add(name)
+        
+        # Select unique racer name
+        available_racer_names = list(set(settings.racer_names) - cls.used_racer_names)
+        if not available_racer_names:
+            raise ValueError("No more unique racer names available")
+        racer = random.choice(available_racer_names)
+        cls.used_racer_names.add(racer)
+
         settings.horse_names.remove(name)
         settings.racer_names.remove(racer)
+
         return Horse(name, racer)
 
     def stats(self):
@@ -44,12 +61,12 @@ class Horse:
 
     def update_position(self):
         move = self.horse_run_odds()
-        if self.check_horse_finish():
-            print(f'{self.name} has finished')
-        elif move == 'move' and '_' in self.position:
+        if move == 'move' and '_' in self.position:
             self.position.pop()  # Remove the last character
             self.position.insert(0, '_')  # Insert a new character at the start
 
+        if self.check_horse_finish():
+            print(f'{self.name} has finished')
 
     def check_horse_finish(self):
         return self.position[-1] == self.horse_icon
