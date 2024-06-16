@@ -6,7 +6,7 @@ import os
 os.system("winget install --id Microsoft.WindowsTerminal -e")
 
 def main():
-    Race.clear_screen()
+    print("\033c") # Clear screen
     while True:
         race = Race() 
         race.new_race()
