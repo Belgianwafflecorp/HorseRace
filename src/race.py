@@ -31,13 +31,17 @@ class Race:
 
     def deposit(self):
         deposit_amount = input("Enter the amount you would like to deposit: ")
-        while not deposit_amount.isdigit():
-            print("Invalid amount. Please enter a valid number.")
-            deposit_amount = input("Enter the amount you would like to deposit: ")
+        while not deposit_amount.isdigit() or int(deposit_amount) > 1000:
+            if not deposit_amount.isdigit():
+                print("Invalid amount. Please enter a valid number.")
+            else:
+                print("We will let you start with 1000.")  
+                deposit_amount = 1000
         deposit_amount = int(deposit_amount)
         self.balance += deposit_amount
         self.db.update_balance(self.balance)
         print(f"Successfully deposited {deposit_amount}. Your new balance is {self.balance}.")
+
 
     def check_broke(self):
         if self.balance == 0:
