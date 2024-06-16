@@ -46,7 +46,7 @@ class Horse:
         return Horse(name, racer)
 
     def stats(self):
-        horse_stats = {stat: random.randint(1, 100) for stat in self.settings.horse_stats}
+        horse_stats = {stat: random.randint(10, 100) for stat in self.settings.horse_stats}
         return horse_stats
 
     def print_horse_stats(self):
