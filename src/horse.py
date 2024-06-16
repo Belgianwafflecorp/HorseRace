@@ -70,7 +70,7 @@ class Horse:
     def update_position(self):
         move = self.horse_run_odds()
         if self.check_horse_finish():
-            self.position = ["🏁"] + ([self.track] * 23)  # Mark as finished with a flag
+            self.position = ["🏁"]  # Mark as finished with a flag
         elif move == 'move' and '_' in self.position:
             self.position.pop(0)  # Remove the first character (move forward)
             self.position.append('_')  # Append a new track character at the end
