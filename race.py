@@ -71,27 +71,30 @@ class Race:
 
     def place_bet(self):
         print("To place a bet, first choose a horse from the list, then enter the amount you would like to bet.")
-        self.bet_horse = input("Horse: ")
-        horse_names = [horse.name for horse in self.race_horses]
+        self.bet_horse = input("Horse: ").strip().lower()  # Convert input to lowercase
+        horse_names = [horse.name.lower() for horse in self.race_horses]  # Convert horse names to lowercase
+
         while self.bet_horse not in horse_names:
             print("Invalid horse name. Please choose one of the listed horses.")
-            self.bet_horse = input("Horse: ")
+            self.bet_horse = input("Horse: ").strip().lower()  # Ask again and convert input to lowercase
 
         self.bet_amount = input("Amount: ")
         while not self.bet_amount.isdigit() or int(self.bet_amount) > self.balance:
             print("Invalid amount. Please enter a valid number. (Balance: {})".format(self.balance))
             self.bet_amount = input("Amount: ")
+
         self.bet_amount = int(self.bet_amount)
         self.balance -= self.bet_amount
         self.db.update_balance(self.balance)
         self.clear_screen()
+
 
     def race_track(self):
         while len(self.race_results) < len(self.race_horses):
             for horse in self.race_horses:
                 horse.update_position()
                 print(horse.name)
-                print(horse.position)
+                print(''.join(map(str, horse.position)))
                 if horse.check_horse_finish() and horse not in self.race_results:
                     self.race_results.append(horse)
             time.sleep(0.3)

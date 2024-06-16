@@ -12,7 +12,8 @@ class Horse:
         self.horse_stats = self.stats()
         self.horse_avg = self.calculate_avg()
         self.horse_icon = '🐎'
-        self.position = [self.horse_icon] + ['_'] * 23
+        self.track = '_'
+        self.position = [self.horse_icon] + ([self.track] * 23)
 
     @classmethod
     def new_horse(cls):
@@ -62,7 +63,7 @@ class Horse:
     def update_position(self):
         move = self.horse_run_odds()
         if self.check_horse_finish():
-            print(f'{self.name} has finished')
+            self.position = " finished"
         elif move == 'move' and '_' in self.position:
             self.position.pop()  # Remove the last character
             self.position.insert(0, '_')  # Insert a new character at the start
