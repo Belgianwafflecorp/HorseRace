@@ -35,7 +35,7 @@ class Settings:
             'Misty', 
             'Peanut',
             'Penny',
-            'Ponyta'
+            'Ponyta',
             'Pistol',
             'Pumpkin',
             'Scout', 
