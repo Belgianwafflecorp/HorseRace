@@ -11,7 +11,7 @@ class Race:
         self.settings = Settings()
         self.db = database.Database()
         self.balance = self.db.get_balance()
-        self.race_results = []
+        self.race_results = []  # Initialize race results as an empty list for each race instance
 
     def new_race(self):
         self.check_broke()
@@ -133,6 +133,6 @@ class Race:
 
 # Example usage
 if __name__ == "__main__":
-    race = Race()
     while True:
+        race = Race() 
         race.new_race()
