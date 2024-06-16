@@ -2,10 +2,13 @@ from horse import Horse
 from settings import Settings
 from rich.console import Console
 from rich.table import Table
+import database
 
 class Race:
     def __init__(self):
         self.settings = Settings()
+        self.balance = database.get_balance()
+
 
     def new_race(self):
         self.horse1 = Horse.new_horse()
@@ -54,8 +57,8 @@ class Race:
             self.bet_horse = input("Horse: ")
 
         self.bet_amount = input("Amount: ")
-        while not self.bet_amount.isdigit():
-            print("Invalid amount. Please enter a valid number.")
+        while (not self.bet_amount.isdigit()) and (self.bet_amount <= self.balance):
+            print("Invalid amount. Please enter a valid number. (Balance: {})".format(self.balance))
             self.bet_amount = input("Amount: ")
 
 
