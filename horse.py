@@ -70,4 +70,4 @@ class Horse:
 
 
     def check_horse_finish(self):
-        return self.position[0] == self.horse_icon
+        return self.position[0] == (self.horse_icon or '🏁')
