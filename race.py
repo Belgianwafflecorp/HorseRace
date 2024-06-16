@@ -73,6 +73,7 @@ class Race:
 
     def place_bet(self):
         print("To place a bet, first choose a horse or racer from the list, then enter the amount you would like to bet.")
+        print(f"(Balance: {self.balance})")
         self.bet_horse = input("Horse/Racer: ").strip().lower()  # Convert input to lowercase
         horse_names = [horse.name.lower() for horse in self.race_horses]  # Convert horse names to lowercase
         racer_names = [horse.racer.lower() for horse in self.race_horses]  # Convert racer names to lowercase
@@ -87,7 +88,7 @@ class Race:
         while not self.bet_amount.isdigit() or int(self.bet_amount) > self.balance:
             self.clear_screen()
             self.console.print(self.table)
-            print("Invalid amount. Please enter a valid number. (Balance: {})".format(self.balance))
+            print(f"Invalid amount. Please enter a valid number. (Balance: {self.balance})")
             print(f"How much would you like to bet on {self.bet_horse}.")
             self.bet_amount = input("Amount: ")
 
