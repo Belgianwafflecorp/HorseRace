@@ -85,7 +85,7 @@ class Race:
         while self.bet_horse not in horse_names and self.bet_horse not in racer_names:
             self.clear_screen()
             self.console.print(self.table)
-            print("Invalid horse or racer name. Please choose one of the listed horses or racers.")
+            print(f"Invalid horse or racer name. Please choose one of the listed horses or racers.\n (Balance: {self.balance})")
             self.bet_horse = input("Horse/Racer: ").strip().lower()  # Ask again and convert input to lowercase
 
         self.bet_amount = input("Amount: ")
