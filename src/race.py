@@ -2,7 +2,6 @@ from horse import Horse
 from settings import Settings
 from rich.console import Console
 from rich.table import Table
-import rich
 import database as database
 import time
 
@@ -45,7 +44,6 @@ class Race:
         self.balance += deposit_amount
         self.db.update_balance(self.balance)
         print(f"Successfully deposited {deposit_amount}. Your new balance is {self.balance}.")
-
 
     def check_broke(self):
         if self.balance == 0:
