@@ -141,11 +141,11 @@ class Race:
             winnings = self.bet_amount * 2
             self.balance += winnings
             self.db.update_balance(self.balance)
-            print(f"\nCongratulations! You won {winnings}!\n")
+            console.print(f"\nCongratulations! You won [green]{winnings}[/green]!\n")
             console.print(f"Your balance is: [yellow]{self.balance}[/yellow].\n")
         else:
             print("\nBetter luck next time!\n")
-            console.print(f"Your balance is: [yellow]{self.balance}[/yellow].\n")
+            console.print(f"Your balance is: [yellow]{self.balance}[/yellow]\n")
         input("Press Enter to continue...")
         self.clear_screen()
 
