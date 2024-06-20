@@ -129,6 +129,17 @@ class Race:
         console = Console()
         console.print(table)
 
+    def win_streak_check(self):
+        if self.previous_win:
+            self.current_win_streak += 1
+            self.best_streak()
+        else:
+            self.current_win_streak = 0
+            self.previous_win = False
+
+    def best_streak(self): 
+        if self.current_win_streak > self.win_streak:
+            self.win_streak = self.current_win_streak
 
     def player_winnings(self):
         if not self.race_results:
@@ -139,14 +150,11 @@ class Race:
         if self.bet_horse == winning_horse.name.lower() or self.bet_horse == winning_horse.racer.lower():
             winnings = self.bet_amount * 2
             self.balance += winnings
-            self.win_streak += 1
-            self.current_win_streak += 1
-            self.previous_win = True
+            self.win_streak_check()
             self.db.update_database(self.balance, self.previous_win, self.win_streak, self.current_win_streak)
             print(f"\nCongratulations! You won {winnings}!\n")
         else:
-            self.current_win_streak = 0
-            self.previous_win = False
+            self.win_streak_check()
             self.db.update_database(self.balance, self.previous_win, self.win_streak, self.current_win_streak)
             print("\nBetter luck next time!\n")
 
