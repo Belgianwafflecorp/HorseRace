@@ -9,9 +9,15 @@ class Race:
     def __init__(self):
         self.settings = Settings()
         self.db = database.Database()
-        self.balance = self.db.get_database()
         self.race_results = []  # Initialize race results as an empty list for each race instance
+        try:
+            self.load_database()
+        except:
+            self.default_values()
+            self.save_database()
+            self.load_database()
 
+    # RACE 
     def new_race(self):
         self.check_broke()
         Horse.reset_names()  # Reset the list of available horse names
@@ -31,7 +37,28 @@ class Race:
         self.race_track()
         self.placements()
         self.player_winnings()
+        self.stats()
 
+    # DATABASE FUNCTIONS
+    def default_values(self):
+        self.balance = 1000
+        self.previous_win = False
+        self.win_streak = 0
+        self.current_win_streak = 0
+
+    def load_database(self):
+        self.balance = self.db.get_column('balance')
+        self.previous_win = self.db.get_column('previous_win')
+        self.win_streak = self.db.get_column('win_streak')
+        self.current_win_streak = self.db.get_column('current_win_streak')
+
+    def save_database(self):
+        self.db.update_column("balance", self.balance)
+        self.db.update_column("previous_win", self.previous_win)
+        self.db.update_column("win_streak", self.win_streak)
+        self.db.update_column("current_win_streak", self.current_win_streak)    
+
+    # RACE FUNCTIONS
     def deposit(self):
         deposit_amount = input("Enter the amount you would like to deposit: ")
         while not deposit_amount.isdigit() or int(deposit_amount) > 1000:
@@ -42,7 +69,7 @@ class Race:
                 deposit_amount = 1000
         deposit_amount = int(deposit_amount)
         self.balance += deposit_amount
-        self.db.update_database(self.balance)
+        self.db.update_column('balance',self.balance)
         print(f"Successfully deposited {deposit_amount}. Your new balance is {self.balance}.")
 
     def check_broke(self):
@@ -100,7 +127,7 @@ class Race:
 
         self.bet_amount = int(self.bet_amount)
         self.balance -= self.bet_amount
-        self.db.update_database(self.balance)
+        self.db.update_column('balance',self.balance)
         self.clear_screen()
 
     def race_track(self):
@@ -151,17 +178,24 @@ class Race:
             winnings = self.bet_amount * 2
             self.balance += winnings
             self.win_streak_check()
-            self.db.update_database(self.balance, self.previous_win, self.win_streak, self.current_win_streak)
             print(f"\nCongratulations! You won {winnings}!\n")
         else:
             self.win_streak_check()
-            self.db.update_database(self.balance, self.previous_win, self.win_streak, self.current_win_streak)
             print("\nBetter luck next time!\n")
 
-        print(f"Your balance is: [yellow]{self.balance}[/yellow].\n")
+        self.save_database()
+        print(f"Your balance is: {self.balance}.\n")
         input("Press Enter to continue...")
         self.clear_screen()
 
+    def stats(self):
+        self.clear_screen()
+        print(f"Balance: {self.balance}")
+        #print(f"Previous win: {self.previous_win}") #check if previous win is working
+        print(f"Best streak: {self.win_streak}")
+        print(f"Current win streak: {self.current_win_streak}")
+        input("\nPress Enter to continue...")
+        self.clear_screen()
 
     def clear_screen(self):
         print("\033c")
