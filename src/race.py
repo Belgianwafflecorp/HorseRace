@@ -20,8 +20,12 @@ class Race:
         self.horse2 = Horse.new_horse()
         self.horse3 = Horse.new_horse()
         self.horse4 = Horse.new_horse()
+        self.horse5 = Horse.new_horse()
+        self.horse6 = Horse.new_horse()
+        self.horse7 = Horse.new_horse()
+        self.horse8 = Horse.new_horse()
 
-        self.race_horses = [self.horse1, self.horse2, self.horse3, self.horse4]
+        self.race_horses = [self.horse1, self.horse2, self.horse3, self.horse4, self.horse5, self.horse6, self.horse7, self.horse8]
         self.horse_list()
 
         self.place_bet()
@@ -115,7 +119,7 @@ class Race:
             self.clear_screen()
 
     def placements(self):
-        self.placementsList = ["first", "second", "third", "fourth"]
+        self.placementsList = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"]
         for i, horse in enumerate(self.race_results):
             print(f"{horse.name} takes {self.placementsList[i]} place.")
 
