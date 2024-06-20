@@ -23,7 +23,7 @@ class Database:
 
     def get_balance(self):
         self.cursor.execute('''
-            SELECT balance FROM horse_race ORDER BY ROWID DESC LIMIT 1
+            SELECT balance FROM horse_race 
         ''')
         result = self.cursor.fetchone()
         return result[0] if result else 0
