@@ -105,7 +105,6 @@ class Race:
         self.db.update_balance(self.balance)
         self.clear_screen()
 
-
     def race_track(self):
         while len(self.race_results) < len(self.race_horses):
             print()
@@ -120,10 +119,21 @@ class Race:
 
     def placements(self):
         self.placementsList = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"]
+        
+        table = Table(title="Race Results")
+
+        table.add_column("Placement", justify="left", style="cyan", no_wrap=True)
+        table.add_column("Horse", justify="left", style="yellow", no_wrap=True)
+
         for i, horse in enumerate(self.race_results):
-            print(f"{horse.name} takes {self.placementsList[i]} place.")
+            table.add_row(self.placementsList[i], horse.name)
+
+        console = Console()
+        console.print(table)
+
 
     def player_winnings(self):
+        console = Console()  # Create a Console object for printing colored text
         if not self.race_results:
             print("No race results available. Race might not have been completed properly.")
             return
@@ -134,10 +144,10 @@ class Race:
             self.balance += winnings
             self.db.update_balance(self.balance)
             print(f"\nCongratulations! You won {winnings}!\n")
-            print(f"Your balance is: {self.balance}.\n")
+            console.print(f"Your balance is: [yellow]{self.balance}[/yellow].\n")
         else:
             print("\nBetter luck next time!\n")
-            print(f"Your balance is: {self.balance}.\n")
+            console.print(f"Your balance is: [yellow]{self.balance}[/yellow].\n")
         input("Press Enter to continue...")
         self.clear_screen()
 
