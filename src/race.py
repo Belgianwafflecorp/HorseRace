@@ -9,7 +9,7 @@ class Race:
     def __init__(self):
         self.settings = Settings()
         self.db = database.Database()
-        self.balance = self.db.get_balance()
+        self.balance = self.db.get_database()
         self.race_results = []  # Initialize race results as an empty list for each race instance
 
     def new_race(self):
@@ -42,7 +42,7 @@ class Race:
                 deposit_amount = 1000
         deposit_amount = int(deposit_amount)
         self.balance += deposit_amount
-        self.db.update_balance(self.balance)
+        self.db.update_database(self.balance)
         print(f"Successfully deposited {deposit_amount}. Your new balance is {self.balance}.")
 
     def check_broke(self):
@@ -100,7 +100,7 @@ class Race:
 
         self.bet_amount = int(self.bet_amount)
         self.balance -= self.bet_amount
-        self.db.update_balance(self.balance)
+        self.db.update_database(self.balance)
         self.clear_screen()
 
     def race_track(self):
@@ -131,23 +131,29 @@ class Race:
 
 
     def player_winnings(self):
-        console = Console()  # Create a Console object for printing colored text
         if not self.race_results:
             print("No race results available. Race might not have been completed properly.")
             return
-        
+
         winning_horse = self.race_results[0]
         if self.bet_horse == winning_horse.name.lower() or self.bet_horse == winning_horse.racer.lower():
             winnings = self.bet_amount * 2
             self.balance += winnings
-            self.db.update_balance(self.balance)
-            console.print(f"\nCongratulations! You won [green]{winnings}[/green]!\n")
-            console.print(f"Your balance is: [yellow]{self.balance}[/yellow].\n")
+            self.win_streak += 1
+            self.current_win_streak += 1
+            self.previous_win = True
+            self.db.update_database(self.balance, self.previous_win, self.win_streak, self.current_win_streak)
+            print(f"\nCongratulations! You won {winnings}!\n")
         else:
+            self.current_win_streak = 0
+            self.previous_win = False
+            self.db.update_database(self.balance, self.previous_win, self.win_streak, self.current_win_streak)
             print("\nBetter luck next time!\n")
-            console.print(f"Your balance is: [yellow]{self.balance}[/yellow]\n")
+
+        print(f"Your balance is: [yellow]{self.balance}[/yellow].\n")
         input("Press Enter to continue...")
         self.clear_screen()
+
 
     def clear_screen(self):
         print("\033c")

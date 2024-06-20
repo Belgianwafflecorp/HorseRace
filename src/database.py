@@ -5,25 +5,33 @@ class Database:
         self.conn = sqlite3.connect("horse_race.db")
         self.cursor = self.conn.cursor()
         self.create_table()
-        self.balance = self.get_balance()
+        self.balance, self.previous_win, self.win_streak, self.current_win_streak = self.get_database()
 
     def create_table(self):
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS horse_race (
-                balance INTEGER
+                balance INTEGER,
+                previous_win BOOLEAN,
+                win_streak INTEGER,
+                current_win_streak INTEGER
             )
         ''')
         self.conn.commit()
 
-    def update_balance(self, balance):
+    def update_database(self, balance, previous_win, win_streak, current_win_streak):
         self.cursor.execute('''
-            INSERT INTO horse_race (balance) VALUES (?)
-        ''', (balance,))
+            INSERT INTO horse_race (balance, previous_win, win_streak, current_win_streak) 
+            VALUES (?, ?, ?, ?)
+        ''', (balance, previous_win, win_streak, current_win_streak))
         self.conn.commit()
 
-    def get_balance(self):
+    def get_database(self):
         self.cursor.execute('''
-            SELECT balance FROM horse_race 
+            SELECT balance, previous_win, win_streak, current_win_streak FROM horse_race ORDER BY rowid DESC LIMIT 1
         ''')
         result = self.cursor.fetchone()
-        return result[0] if result else 0
+        if result:
+            return result[0], result[1], result[2], result[3]
+        else:
+            # If no data exists, initialize with default values
+            return 0, False, 0, 0
