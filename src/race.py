@@ -118,7 +118,7 @@ class Race:
             self.clear_screen()
 
     def placements(self):
-        self.placementsList = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"]
+        self.placementsList = ["first  🏆", "second 🥈", "third  🥉", "fourth", "fifth", "sixth", "seventh", "eighth"]
         
         table = Table(title="Race Results")
 
